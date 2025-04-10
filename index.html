@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image OCR Entity Extractor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"
+        crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="container py-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0"><i class="bi bi-image-alt me-2"></i>Image OCR Entity Extractor</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Upload a handwritten note or document to extract entities using OCR.
+                        </p>
+
+                        <div id="upload-area" class="upload-area mb-3">
+                            <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
+                            <p class="mb-1">Drag and drop an image here, or click to select</p>
+                            <small class="text-muted">Supported formats: JPEG, PNG, GIF, WEBP</small>
+                            <input type="file" id="file-input" class="d-none" accept="image/*" />
+                        </div>
+
+                        <div id="error-container" class="alert alert-danger d-none" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <span id="error-message"></span>
+                        </div>
+                        
+                        <div id="loading-container" class="text-center d-none py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Processing image with OCR...</p>
+                        </div>
+                        
+                        <div class="row results-container">
+                            <div class="col-md-6">
+                                <div id="preview-container" class="text-center d-none mb-3">
+                                    <h5><i class="bi bi-eye me-2"></i>Image Preview</h5>
+                                    <img id="image-preview" class="img-preview rounded shadow-sm mb-3 img-fluid" alt="Preview" />
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <button id="process-btn" class="btn btn-primary">
+                                            <i class="bi bi-magic me-2"></i>Process Image
+                                        </button>
+                                        <button id="clear-btn" class="btn btn-outline-secondary">
+                                            <i class="bi bi-x-circle me-2"></i>Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="right-column" class="col-md-6 right-content">
+                                <!-- Extracted text and entity table will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-card" class="col-md-6 d-none">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="bi bi-table me-2"></i>Extracted Entities</h4>
+                    <button id="download-csv" class="btn btn-light btn-sm">
+                        <i class="bi bi-download me-2"></i>Download CSV
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="no-entities" class="alert alert-info d-none">
+                        <i class="bi bi-info-circle-fill me-2"></i>No entities were detected in the image.
+                    </div>
+                    <div class="table-container">
+                        <table id="entity-table" class="table table-striped table-hover entity-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Entity Name</th>
+                                    <th scope="col">Entity Type</th>
+                                    <th scope="col">Confidence</th>
+                                </tr>
+                            </thead>
+                            <tbody id="entity-tbody">
+                                <!-- Entities will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
