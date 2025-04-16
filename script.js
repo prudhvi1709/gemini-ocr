@@ -77,6 +77,35 @@ els.downloadBtn.addEventListener("click", () => {
   link.click();
 });
 
+// Add event listeners for sample images (click to auto-process)
+[1,2,3].forEach(i => {
+  const img = document.getElementById(`sample-img-${i}`);
+  if (img) {
+    img.addEventListener('click', async () => {
+      // Try multiple extensions for the sample image
+      const exts = ['jpg', 'png', 'webp'];
+      let file = null;
+      for (const ext of exts) {
+        const url = img.src.replace(/\.(jpg|png|webp)$/i, `.${ext}`);
+        try {
+          const res = await fetch(url);
+          if (!res.ok) continue;
+          const blob = await res.blob();
+          file = new File([blob], `sample${i}.${ext}`, { type: blob.type || `image/${ext}` });
+          break;
+        } catch (e) {}
+      }
+      if (file) {
+        handleUpload(file);
+        // Wait a tick for UI update, then process
+        setTimeout(processImage, 100);
+      } else {
+        showError('Could not load sample image.');
+      }
+    });
+  }
+});
+
 function handleUpload(file) {
   const types = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   if (!types.includes(file.type)) return showError("Please upload a valid image (JPEG, PNG, GIF, or WEBP)");
